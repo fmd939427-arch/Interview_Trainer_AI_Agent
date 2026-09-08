@@ -1,0 +1,270 @@
+{
+  "roles": ["Software Engineer", "Data Analyst", "Product Manager", "HR/Business"],
+  "levels": ["Entry", "Mid", "Senior"],
+  "rubric": {
+    "clarity": "How clearly the candidate communicates their thoughts — structured, jargon-free, concise.",
+    "confidence": "Demonstrates conviction, owns experiences, avoids hedging excessively.",
+    "specificity": "Uses concrete examples, numbers, names, outcomes rather than vague generalities.",
+    "ownership": "Shows personal accountability and initiative ('I did X' vs 'the team did X').",
+    "relevance": "Answer directly addresses the question asked, staying on topic."
+  },
+  "technical": {
+    "Software Engineer": {
+      "Entry": [
+        {
+          "id": "se-e-1",
+          "question": "Explain the difference between a stack and a queue.",
+          "topic": "Data Structures",
+          "model_answer": "A stack is a LIFO (Last-In, First-Out) data structure where elements are pushed and popped from the same end (the top). A queue is a FIFO (First-In, First-Out) structure where elements are enqueued at the back and dequeued from the front. Stacks are used for function call management, undo operations, and expression parsing. Queues are used for task scheduling, BFS traversal, and message buffering.",
+          "tips": ["Mention real-world use cases for both", "Optionally describe time complexity: O(1) push/pop for stack, O(1) enqueue/dequeue for queue", "Draw the mental model verbally — describe which end is open"]
+        },
+        {
+          "id": "se-e-2",
+          "question": "What is the difference between == and === in JavaScript?",
+          "topic": "JavaScript",
+          "model_answer": "== is the abstract equality operator that performs type coercion before comparison, so '5' == 5 returns true. === is the strict equality operator that checks both value and type without coercion, so '5' === 5 returns false. As a best practice, prefer === to avoid unexpected behavior from implicit type coercion.",
+          "tips": ["Give a concrete example with values", "Explain type coercion briefly", "State a clear recommendation"]
+        },
+        {
+          "id": "se-e-3",
+          "question": "What is REST and what are its core principles?",
+          "topic": "APIs",
+          "model_answer": "REST (Representational State Transfer) is an architectural style for designing networked APIs. Core principles include: (1) Statelessness — each request contains all information needed; (2) Client-Server separation; (3) Uniform interface — consistent resource URLs and HTTP methods (GET, POST, PUT, DELETE); (4) Cacheability; (5) Layered system. RESTful APIs communicate via HTTP and represent resources as URLs.",
+          "tips": ["Name at least 3-4 constraints", "Mention HTTP verbs and their meanings", "Contrast with GraphQL or SOAP if you know them"]
+        },
+        {
+          "id": "se-e-4",
+          "question": "What is the time complexity of binary search and when can you use it?",
+          "topic": "Algorithms",
+          "model_answer": "Binary search runs in O(log n) time. It requires the input array to be sorted. It works by repeatedly dividing the search space in half — comparing the target to the midpoint and discarding the irrelevant half. This makes it significantly faster than linear search O(n) for large datasets.",
+          "tips": ["State the precondition: sorted array", "Walk through one example iteration", "Compare to linear search complexity"]
+        },
+        {
+          "id": "se-e-5",
+          "question": "Explain Object-Oriented Programming and its four pillars.",
+          "topic": "OOP",
+          "model_answer": "OOP is a programming paradigm that organises code around objects and classes. The four pillars are: (1) Encapsulation — bundling data and methods together and hiding internal state; (2) Abstraction — exposing only relevant details to the user; (3) Inheritance — allowing a class to derive properties from a parent class; (4) Polymorphism — the ability for objects of different types to be treated through a common interface.",
+          "tips": ["Give a real-world analogy for each pillar", "Mention a language (Java, Python, C++) as an example", "Explain why OOP improves code maintainability"]
+        }
+      ],
+      "Mid": [
+        {
+          "id": "se-m-1",
+          "question": "How does JavaScript's event loop work?",
+          "topic": "JavaScript Runtime",
+          "model_answer": "JavaScript is single-threaded and uses an event loop to handle asynchronous operations. The call stack executes synchronous code. Async operations (timers, I/O) are handed off to Web APIs/Node.js APIs. When complete, their callbacks are queued in the callback queue (or microtask queue for Promises). The event loop continuously checks if the call stack is empty; if so, it pushes the next queued callback onto the stack. Microtasks (Promises) have priority over macrotasks (setTimeout).",
+          "tips": ["Distinguish microtask vs macrotask queues", "Mention Promises and async/await", "Give a concrete example with setTimeout and a Promise"]
+        },
+        {
+          "id": "se-m-2",
+          "question": "Describe a time you identified and resolved a performance bottleneck in production.",
+          "topic": "System Design",
+          "model_answer": "In a previous role, our API response times spiked to 3s+ under load. I used profiling tools (New Relic / Chrome DevTools) to identify a database query missing an index on a high-cardinality column. After adding the index and caching frequent queries with Redis, response time dropped to under 200ms. I also set up monitoring alerts to catch regressions early.",
+          "tips": ["Use specific metrics (response times, load numbers)", "Mention profiling tools you actually used", "Describe the before/after clearly"]
+        },
+        {
+          "id": "se-m-3",
+          "question": "Explain the CAP theorem and how it applies to distributed systems.",
+          "topic": "Distributed Systems",
+          "model_answer": "CAP theorem states that a distributed system can guarantee at most two of three properties simultaneously: Consistency (every read gets the latest write), Availability (every request gets a response), and Partition Tolerance (the system continues operating during network partitions). Since partitions are inevitable in real systems, you must choose between CP (consistent but may be unavailable) or AP (available but may return stale data). For example, DynamoDB prioritizes AP; HBase prioritizes CP.",
+          "tips": ["Give examples of CP and AP databases", "Explain why P (partition tolerance) is effectively mandatory", "Mention eventual consistency"]
+        },
+        {
+          "id": "se-m-4",
+          "question": "What design patterns have you used, and where?",
+          "topic": "Design Patterns",
+          "model_answer": "I frequently use the Observer pattern for event-driven systems (e.g., React state management), the Factory pattern to abstract object creation and make code more testable, and the Strategy pattern when I need to swap algorithms at runtime. For example, I used the Strategy pattern to implement multiple payment gateway integrations without changing the core payment flow.",
+          "tips": ["Name at least 2-3 patterns with concrete use cases", "Explain WHY you chose that pattern, not just that you used it", "Mention tradeoffs or when a pattern is overkill"]
+        }
+      ],
+      "Senior": [
+        {
+          "id": "se-s-1",
+          "question": "How would you design a URL shortening service like bit.ly at scale?",
+          "topic": "System Design",
+          "model_answer": "I'd start with requirements: 100M URLs/day writes, 10B reads/day. Core components: (1) API servers behind a load balancer; (2) URL generation using Base62 encoding of a auto-incremented ID or a hash with collision handling; (3) Redis cache for the hot read path; (4) NoSQL database (Cassandra/DynamoDB) for the URL mapping at scale; (5) CDN for geographic distribution; (6) Expiry/cleanup jobs. I'd design for AP over CP since stale URLs are acceptable for milliseconds.",
+          "tips": ["Start with capacity estimation", "Address both write and read paths separately", "Discuss trade-offs for each major decision"]
+        },
+        {
+          "id": "se-s-2",
+          "question": "How do you approach mentoring junior engineers and building team culture?",
+          "topic": "Leadership",
+          "model_answer": "I pair-program regularly with juniors to transfer context, not just code. I focus on asking questions rather than giving answers — 'What have you tried?' rather than jumping to a solution. For culture, I establish blameless postmortems, model vulnerability by admitting my own mistakes publicly, and create a psychological safety culture. I track the 'growth velocity' of each team member informally and tailor my support accordingly.",
+          "tips": ["Give a specific mentoring success story", "Mention feedback mechanisms you use", "Speak to culture as intentional, not accidental"]
+        },
+        {
+          "id": "se-s-3",
+          "question": "Describe your approach to technical debt management.",
+          "topic": "Engineering Excellence",
+          "model_answer": "I treat technical debt as an explicit engineering budget, not a hidden cost. I use a 'debt ledger' in our sprint backlog and negotiate 20% of each sprint for debt reduction. I classify debt by risk: (1) critical — blocks new features or causes incidents; (2) moderate — slows velocity; (3) low — cosmetic. I prioritize critical debt immediately and use low-risk debt items as onboarding tasks for junior engineers.",
+          "tips": ["Quantify the impact of tech debt you've managed", "Show a systematic approach, not ad-hoc refactoring", "Mention how you communicated debt trade-offs to product/business"]
+        }
+      ]
+    },
+    "Data Analyst": {
+      "Entry": [
+        {
+          "id": "da-e-1",
+          "question": "What is the difference between INNER JOIN and LEFT JOIN in SQL?",
+          "topic": "SQL",
+          "model_answer": "INNER JOIN returns only rows where there is a match in both tables. LEFT JOIN returns all rows from the left table and the matching rows from the right table; where there's no match, the right side columns are NULL. Use INNER JOIN when you only want matched records. Use LEFT JOIN when you want to retain all records from the primary table even if there's no corresponding entry in the secondary table.",
+          "tips": ["Give a concrete table example", "Mention RIGHT JOIN and FULL OUTER JOIN briefly", "Explain a use-case for each"]
+        },
+        {
+          "id": "da-e-2",
+          "question": "How would you handle missing values in a dataset?",
+          "topic": "Data Cleaning",
+          "model_answer": "First, I'd understand why the data is missing — MCAR (missing completely at random), MAR (missing at random), or MNAR (missing not at random). Strategies include: (1) Dropping rows/columns if missingness is high and random; (2) Mean/median/mode imputation for numerical/categorical columns; (3) Forward/backward fill for time-series; (4) Using ML models (KNN imputation) for complex patterns. I always document and flag imputed values to avoid misleading downstream analysis.",
+          "tips": ["Show awareness of WHY data is missing before acting", "Name at least 3 strategies", "Mention the risk of imputation bias"]
+        },
+        {
+          "id": "da-e-3",
+          "question": "Explain the difference between correlation and causation with an example.",
+          "topic": "Statistics",
+          "model_answer": "Correlation means two variables move together statistically, but does not imply one causes the other. Causation means one variable directly influences another. Classic example: ice cream sales and drowning rates are positively correlated, but ice cream doesn't cause drowning — both are driven by a confounding variable (summer/heat). Establishing causation requires controlled experiments or causal inference techniques like A/B testing or instrumental variables.",
+          "tips": ["Use a memorable real-world example", "Mention confounding variables", "Name a method to establish causation (e.g., RCT, DiD, IV)"]
+        }
+      ],
+      "Mid": [
+        {
+          "id": "da-m-1",
+          "question": "Walk me through how you would design an A/B test from scratch.",
+          "topic": "Experimentation",
+          "model_answer": "Step 1: Define the hypothesis and metric (primary KPI + guardrail metrics). Step 2: Calculate sample size using power analysis (typically 80% power, α=0.05). Step 3: Randomize users into control and treatment groups ensuring no leakage. Step 4: Run the test for the calculated duration. Step 5: Analyze results using the appropriate statistical test (t-test, chi-squared). Step 6: Check for novelty effects and segmented impacts. Step 7: Make a decision and document learnings.",
+          "tips": ["Mention power analysis and sample size calculation", "Address multiple testing / p-hacking concerns", "Emphasize segmentation analysis"]
+        },
+        {
+          "id": "da-m-2",
+          "question": "How do you communicate findings to non-technical stakeholders?",
+          "topic": "Communication",
+          "model_answer": "I follow the BLUF principle — Bottom Line Up Front. I start with the business impact ('Revenue could increase by $2M if we fix checkout drop-off'), then show the 1-2 supporting visualizations that tell that story. I avoid statistical jargon and instead use plain language and analogies. I always prepare a 'so what' — a clear recommendation or decision the stakeholder can act on. I send a one-page summary document in advance of meetings.",
+          "tips": ["Lead with business impact, not methodology", "Mention BLUF or similar framework", "Talk about visual design choices for accessibility"]
+        }
+      ],
+      "Senior": [
+        {
+          "id": "da-s-1",
+          "question": "How have you built or scaled a data analytics platform?",
+          "topic": "Data Architecture",
+          "model_answer": "At my last company, I led the migration from ad-hoc SQL queries to a Medallion architecture (Bronze/Silver/Gold layers) in Databricks. I defined data contracts between engineering and analytics, established a dbt transformation layer for Silver→Gold, and built a centralized metrics store so KPIs were defined once and reused everywhere. This reduced metric discrepancy incidents by 80% and cut analyst query time by 60%.",
+          "tips": ["Use specific numbers and impact", "Mention architectural decisions and why you made them", "Address data quality and governance"]
+        }
+      ]
+    },
+    "Product Manager": {
+      "Entry": [
+        {
+          "id": "pm-e-1",
+          "question": "How do you prioritize features in a product backlog?",
+          "topic": "Prioritization",
+          "model_answer": "I use frameworks like RICE (Reach, Impact, Confidence, Effort) or MoSCoW (Must-have, Should-have, Could-have, Won't-have) depending on the stage. I always start by aligning features to strategic goals and user pain points validated through user research. I also consider dependencies, technical debt, and regulatory requirements. Crucially, I involve engineers early to get accurate effort estimates before scoring.",
+          "tips": ["Name a specific prioritization framework", "Show you balance user value vs business value vs feasibility", "Mention stakeholder alignment"]
+        },
+        {
+          "id": "pm-e-2",
+          "question": "What is the difference between a product vision and a product strategy?",
+          "topic": "Product Strategy",
+          "model_answer": "Product vision is the long-term aspirational destination — the 'why' and 'what we're building toward' (e.g., 'make everyone's work life simpler, more pleasant, and more productive'). Product strategy is the plan of action — the 'how' we achieve the vision, including the market to target, differentiation approach, key bets, and roadmap sequencing. Vision is stable over years; strategy adapts quarterly as you learn.",
+          "tips": ["Use a real company example to illustrate", "Explain how strategy connects to vision", "Mention OKRs as a bridge"]
+        }
+      ],
+      "Mid": [
+        {
+          "id": "pm-m-1",
+          "question": "Tell me about a product you launched. What was the outcome and what would you do differently?",
+          "topic": "Product Execution",
+          "model_answer": "I led the launch of a self-serve onboarding flow that reduced time-to-first-value from 3 days to 4 hours and improved 30-day retention by 18%. We succeeded by ruthlessly cutting the onboarding to 3 steps from 12, A/B testing each change. What I'd do differently: involve customer success earlier — they had insight about user confusion that we discovered too late, which would have saved 2 weeks of iteration.",
+          "tips": ["Quantify the outcome", "Show genuine reflection on what went wrong", "Demonstrate cross-functional collaboration"]
+        }
+      ],
+      "Senior": [
+        {
+          "id": "pm-s-1",
+          "question": "How do you align engineering, design, and business stakeholders around a product roadmap?",
+          "topic": "Leadership",
+          "model_answer": "I use a 'roadmap narrative' approach: instead of a timeline chart, I present the roadmap as a story — this quarter we solve X problem for Y users, enabling Z business outcome, which positions us for the next phase. I run quarterly roadmap reviews with all stakeholders, using OKRs as the north star. I separate 'committed' from 'aspirational' items, and I create a living FAQ doc to address objections asynchronously. For conflicts, I use data and user research as the tiebreaker — not seniority.",
+          "tips": ["Show how you manage conflict between stakeholders", "Mention specific communication artifacts you use", "Demonstrate data-driven decision making"]
+        }
+      ]
+    },
+    "HR/Business": {
+      "Entry": [
+        {
+          "id": "hr-e-1",
+          "question": "How would you handle a conflict between two team members?",
+          "topic": "Conflict Resolution",
+          "model_answer": "I would first speak with each person separately to understand their perspectives without judgment. I'd then facilitate a structured conversation between them, focusing on the issue rather than personalities. I'd use active listening techniques and help both parties articulate their needs. Together we'd agree on a resolution and follow-up actions. I'd document the outcome and check in with both parties after 1-2 weeks to ensure the situation had improved.",
+          "tips": ["Show a structured process, not ad-hoc reaction", "Emphasize listening first before acting", "Mention follow-up and accountability"]
+        }
+      ],
+      "Mid": [
+        {
+          "id": "hr-m-1",
+          "question": "How have you improved employee engagement or retention?",
+          "topic": "HR Strategy",
+          "model_answer": "At my previous company, I noticed exit interview data consistently cited 'lack of growth visibility' as the top reason for attrition. I designed and rolled out an Individual Development Plan (IDP) program for all 200 employees, paired with quarterly career conversations using a structured template. Within 12 months, voluntary turnover dropped from 22% to 14%, and internal promotion rates increased by 35%.",
+          "tips": ["Use data from exit interviews or surveys as the starting point", "Show the intervention was evidence-based", "Quantify the outcome"]
+        }
+      ],
+      "Senior": [
+        {
+          "id": "hr-s-1",
+          "question": "How do you build a high-performance culture at an organizational level?",
+          "topic": "Organizational Development",
+          "model_answer": "High performance culture is built by making the implicit explicit: documenting values with specific behavioral examples of what they look like in practice, not just aspirational statements. I establish systems of recognition (peer nominations, manager spotlight), ensure performance reviews are calibrated and consistent, and create psychological safety by modeling vulnerability at the leadership level. I also tie culture metrics (engagement scores, inclusion index) to leadership OKRs so they're treated as business outcomes.",
+          "tips": ["Distinguish culture as a system vs. slogans", "Mention measurement: engagement surveys, retention metrics", "Connect culture to business outcomes directly"]
+        }
+      ]
+    }
+  },
+  "behavioral": [
+    {
+      "id": "beh-1",
+      "question": "Tell me about a time you failed at something significant. What happened and what did you learn?",
+      "framework": "STAR",
+      "category": "Growth Mindset",
+      "model_answer": "In my previous role, I was leading a product migration and underestimated the complexity of data schema changes. We missed the deadline by 3 weeks and caused downstream disruptions for 2 other teams. I took ownership in the all-hands, documented the root cause (insufficient technical spike before committing), and introduced a 'pre-flight checklist' for all future migrations. We've had zero similar incidents since. The lesson was that confidence without thorough validation is a liability.",
+      "tips": ["Own the failure fully — no blame-shifting", "Show concrete corrective action you took personally", "Demonstrate what changed permanently as a result"]
+    },
+    {
+      "id": "beh-2",
+      "question": "Describe a situation where you had to influence without authority.",
+      "framework": "STAR",
+      "category": "Influence",
+      "model_answer": "I needed a senior engineering team to prioritize an API change critical to my team's roadmap, but they had no bandwidth in their current sprint. Rather than escalating, I prepared a 1-page impact analysis showing the downstream cost of delay (2 dependent features blocked, $400K in projected Q3 revenue at risk). I also offered to embed one of my engineers to reduce their effort by 60%. They reprioritized within the next sprint cycle.",
+      "tips": ["Frame your approach as 'persuading with data', not politics", "Show empathy for the other party's constraints", "Quantify the stakes"]
+    },
+    {
+      "id": "beh-3",
+      "question": "Tell me about a time you received difficult feedback. How did you respond?",
+      "framework": "STAR",
+      "category": "Feedback Reception",
+      "model_answer": "My manager told me that my presentations were technically thorough but lost the room because I started with methodology instead of the insight. It stung at first, but I asked for a specific example and recognized the pattern immediately. I took a data storytelling course, restructured my decks to lead with the business question and key finding, and practiced with a colleague before my next major presentation. My manager noted the improvement in my next review and I've since led 3 executive presentations.",
+      "tips": ["Show you asked for specifics, not just accepted vague feedback", "Describe the concrete change in behavior", "Measure the improvement if possible"]
+    },
+    {
+      "id": "beh-4",
+      "question": "Give an example of when you had to make a decision with incomplete information.",
+      "framework": "STAR",
+      "category": "Decision Making",
+      "model_answer": "During a production incident, our monitoring showed a 40% drop in conversions but logs were inconclusive. With $50K/hour revenue impact, I had to decide: rollback the last deployment (safe but disruptive) or investigate further. I set a 15-minute decision timer, assigned parallel investigations, and decided to rollback after 12 minutes when no root cause was found. Conversions recovered immediately. The cause turned out to be a third-party script timeout — verifiable within 20 minutes post-rollback. I documented the decision framework for future incidents.",
+      "tips": ["Show your decision-making process under pressure", "Acknowledge the uncertainty explicitly", "Demonstrate you set a time-box for the decision"]
+    },
+    {
+      "id": "beh-5",
+      "question": "Describe a time you worked effectively with a difficult team member or stakeholder.",
+      "framework": "STAR",
+      "category": "Collaboration",
+      "model_answer": "A senior stakeholder consistently pushed back on timeline estimates in planning meetings, in ways that demotivated the team. I requested a 1-on-1 to understand their concerns and learned they had been burned by missed dates in a prior project. I proposed a tiered commitment model: committed dates for 4-week sprints, directional targets for the next quarter. This gave them the predictability they needed. Over the following quarter, our relationship shifted from adversarial to collaborative, and they became one of our biggest internal advocates.",
+      "tips": ["Seek to understand the root cause of the difficult behavior", "Show the resolution benefited both parties", "Avoid disparaging the stakeholder"]
+    },
+    {
+      "id": "beh-6",
+      "question": "Tell me about your greatest professional achievement.",
+      "framework": "STAR",
+      "category": "Achievement",
+      "model_answer": "I led a team of 5 engineers to rebuild our core data pipeline from a brittle ETL monolith to a scalable streaming architecture on Kafka + Spark. The project was 6 months, over 3 previous teams had abandoned it. I restructured it into 4 independent phases, built stakeholder consensus by showing early wins phase by phase, and delivered on time. The new system handles 10x the previous data volume at 40% lower infrastructure cost and has had zero major incidents in 18 months.",
+      "tips": ["Lead with impact, then explain context", "Show personal ownership — what YOU specifically did", "Include scale/scope indicators (team size, duration, impact)"]
+    }
+  ]
+}

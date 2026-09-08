@@ -1,0 +1,13 @@
+{
+  "name": "interview-trainer-ai",
+  "version": "1.0.0",
+  "description": "AI Interview Trainer — root build script for Railway deployment",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "node backend/src/index.js",
+    "install-all": "npm install --prefix backend && npm install --prefix frontend"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
