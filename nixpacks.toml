@@ -11,6 +11,3 @@ cmds = [
 cmds = [
   "cd frontend && GENERATE_SOURCEMAP=false CI=false npm run build"
 ]
-
-[start]
-cmd = "NODE_ENV=production node backend/src/index.js"
