@@ -21,17 +21,20 @@ app.get('/health', (req, res) => {
 });
 
 // Serve React build in production
+// __dirname = <repo>/backend/src — so build is at <repo>/frontend/build
 if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, '../../frontend/build');
+  const buildPath = path.resolve(__dirname, '..', '..', 'frontend', 'build');
   app.use(express.static(buildPath));
   app.get('*', (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 Interview Trainer API running on http://localhost:${PORT}`);
-  console.log(`   Health: http://localhost:${PORT}/health`);
+// Bind to 0.0.0.0 so Railway's proxy can reach the process
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`\n🚀 Interview Trainer API running on http://0.0.0.0:${PORT}`);
+  console.log(`   Health: http://0.0.0.0:${PORT}/health`);
+  console.log(`   NODE_ENV: ${process.env.NODE_ENV}`);
   console.log(`   Model:  ${process.env.WATSONX_MODEL_ID || 'ibm/granite-3-3-8b-instruct'}\n`);
 });
 
